@@ -41,5 +41,13 @@
            timeToLiveSeconds="3600">
     </cache>
 
+    <cache name="com.hippett.domain.Game"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="com.hippett.domain.PlayerGameStats"
+        timeToLiveSeconds="3600">
+    </cache>
+
     <!-- jhipster-needle-ehcache-add-entry -->
 </ehcache>

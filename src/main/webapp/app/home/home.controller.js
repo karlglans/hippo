@@ -5,15 +5,16 @@
         .module('hippoApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state'];
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', '$http'];
 
-    function HomeController ($scope, Principal, LoginService, $state) {
+    function HomeController ($scope, Principal, LoginService, $state, $http) {
         var vm = this;
 
         vm.account = null;
         vm.isAuthenticated = null;
         vm.login = LoginService.open;
         vm.register = register;
+        vm.addPlayerStats = addPlayerStats;
         $scope.$on('authenticationSuccess', function() {
             getAccount();
         });
@@ -28,6 +29,15 @@
         }
         function register () {
             $state.go('register');
+        }
+        function addPlayerStats () {
+        	
+        	$http.post("/api/v1/game/start/1/")
+        		.success(function(){
+        			console.log("succsess()");
+        		});
+        	
+        	console.log("api/v1/game/start");
         }
     }
 })();

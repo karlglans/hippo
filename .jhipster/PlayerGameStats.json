@@ -1,0 +1,40 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "player",
+            "otherEntityName": "user",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "game",
+            "otherEntityName": "game",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "nGamesPlayed",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "score",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "rating",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "startLevel",
+            "fieldType": "Integer"
+        }
+    ],
+    "changelogDate": "20161122175426",
+    "entityTableName": "player_game_stats",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

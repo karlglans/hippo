@@ -1,0 +1,27 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "title",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "descrip",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "averageScore",
+            "fieldType": "Float"
+        },
+        {
+            "fieldName": "stddist",
+            "fieldType": "Float"
+        }
+    ],
+    "changelogDate": "20161122175425",
+    "entityTableName": "game",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

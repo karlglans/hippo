@@ -1,0 +1,20 @@
+entity Game {
+	title String,
+    descrip String,
+	averageScore Float,
+    stddist Float
+}
+
+entity PlayerGameStats {
+	nGamesPlayed Integer,
+    score Integer, //
+	rating Integer, // 1600 should be avreage. Based on compair with Game:averageScore
+    startLevel Integer 
+}
+relationship ManyToOne{
+    PlayerGameStats{player} to User
+}
+
+relationship ManyToOne {
+  PlayerGameStats{game} to Game
+}
