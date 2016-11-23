@@ -30,11 +30,15 @@
         {
             "fieldName": "startLevel",
             "fieldType": "Integer"
+        },
+        {
+            "fieldName": "started",
+            "fieldType": "Boolean"
         }
     ],
     "changelogDate": "20161122175426",
-    "entityTableName": "player_game_stats",
     "dto": "no",
-    "pagination": "no",
-    "service": "no"
+    "service": "no",
+    "entityTableName": "player_game_stats",
+    "pagination": "no"
 }

@@ -15,8 +15,7 @@ public interface PlayerGameStatsRepository extends JpaRepository<PlayerGameStats
 
     @Query("select playerGameStats from PlayerGameStats playerGameStats where playerGameStats.player.login = ?#{principal.username}")
     List<PlayerGameStats> findByPlayerIsCurrentUser();
-    
-    @Query("select playerGameStats from PlayerGameStats playerGameStats where playerGameStats.player.login = ?#{principal.username} and playerGameStats.game.id = :gameId" )
-    List<PlayerGameStats> findByGameIdAndPlayerIsCurrentUser(@Param("gameId") Long gameId);
 
+    @Query("select playerGameStats from PlayerGameStats playerGameStats where playerGameStats.game.id = :gameID and playerGameStats.player.login = ?#{principal.username}")
+    List<PlayerGameStats> findByPlayerIsCurrentUserAndGameId(@Param("gameID") Long gameid);
 }

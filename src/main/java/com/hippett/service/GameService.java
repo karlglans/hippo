@@ -25,14 +25,13 @@ public class GameService {
 		
 		//long ffff = 222;
 		
-		gameID = 1;
+		//gameID = 1;
 		
 		//Optional<PlayerGameStats> gameStats = pgsRepo.findByPlayerIsCurrent();
 		//List<PlayerGameStats> findByPlayerIsCurrentUser
 		//List<PlayerGameStats> gameStats = pgsRepo.findByPlayerIsCurrentUser();
-		List<PlayerGameStats> gameStats = pgsRepo.findByGameIdAndPlayerIsCurrentUser(gameID);
+		List<PlayerGameStats> gameStats = pgsRepo.findByPlayerIsCurrentUserAndGameId(gameID);
 		
-		gameID = 111;
 		
 		//int siiize = gameStats.size();
 		

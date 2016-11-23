@@ -99,6 +99,7 @@
                                 score: null,
                                 rating: null,
                                 startLevel: null,
+                                started: null,
                                 id: null
                             };
                         }

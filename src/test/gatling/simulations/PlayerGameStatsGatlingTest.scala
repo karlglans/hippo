@@ -68,7 +68,7 @@ class PlayerGameStatsGatlingTest extends Simulation {
             .exec(http("Create new playerGameStats")
             .post("/api/player-game-stats")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "nGamesPlayed":"0", "score":"0", "rating":"0", "startLevel":"0"}""")).asJSON
+            .body(StringBody("""{"id":null, "nGamesPlayed":"0", "score":"0", "rating":"0", "startLevel":"0", "started":null}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_playerGameStats_url"))).exitHereIfFailed
             .pause(10)

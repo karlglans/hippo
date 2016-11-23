@@ -49,6 +49,9 @@ public class PlayerGameStatsResourceIntTest {
     private static final Integer DEFAULT_START_LEVEL = 1;
     private static final Integer UPDATED_START_LEVEL = 2;
 
+    private static final Boolean DEFAULT_STARTED = false;
+    private static final Boolean UPDATED_STARTED = true;
+
     @Inject
     private PlayerGameStatsRepository playerGameStatsRepository;
 
@@ -86,7 +89,8 @@ public class PlayerGameStatsResourceIntTest {
                 .nGamesPlayed(DEFAULT_N_GAMES_PLAYED)
                 .score(DEFAULT_SCORE)
                 .rating(DEFAULT_RATING)
-                .startLevel(DEFAULT_START_LEVEL);
+                .startLevel(DEFAULT_START_LEVEL)
+                .started(DEFAULT_STARTED);
         return playerGameStats;
     }
 
@@ -115,6 +119,7 @@ public class PlayerGameStatsResourceIntTest {
         assertThat(testPlayerGameStats.getScore()).isEqualTo(DEFAULT_SCORE);
         assertThat(testPlayerGameStats.getRating()).isEqualTo(DEFAULT_RATING);
         assertThat(testPlayerGameStats.getStartLevel()).isEqualTo(DEFAULT_START_LEVEL);
+        assertThat(testPlayerGameStats.isStarted()).isEqualTo(DEFAULT_STARTED);
     }
 
     @Test
@@ -131,7 +136,8 @@ public class PlayerGameStatsResourceIntTest {
                 .andExpect(jsonPath("$.[*].nGamesPlayed").value(hasItem(DEFAULT_N_GAMES_PLAYED)))
                 .andExpect(jsonPath("$.[*].score").value(hasItem(DEFAULT_SCORE)))
                 .andExpect(jsonPath("$.[*].rating").value(hasItem(DEFAULT_RATING)))
-                .andExpect(jsonPath("$.[*].startLevel").value(hasItem(DEFAULT_START_LEVEL)));
+                .andExpect(jsonPath("$.[*].startLevel").value(hasItem(DEFAULT_START_LEVEL)))
+                .andExpect(jsonPath("$.[*].started").value(hasItem(DEFAULT_STARTED.booleanValue())));
     }
 
     @Test
@@ -148,7 +154,8 @@ public class PlayerGameStatsResourceIntTest {
             .andExpect(jsonPath("$.nGamesPlayed").value(DEFAULT_N_GAMES_PLAYED))
             .andExpect(jsonPath("$.score").value(DEFAULT_SCORE))
             .andExpect(jsonPath("$.rating").value(DEFAULT_RATING))
-            .andExpect(jsonPath("$.startLevel").value(DEFAULT_START_LEVEL));
+            .andExpect(jsonPath("$.startLevel").value(DEFAULT_START_LEVEL))
+            .andExpect(jsonPath("$.started").value(DEFAULT_STARTED.booleanValue()));
     }
 
     @Test
@@ -172,7 +179,8 @@ public class PlayerGameStatsResourceIntTest {
                 .nGamesPlayed(UPDATED_N_GAMES_PLAYED)
                 .score(UPDATED_SCORE)
                 .rating(UPDATED_RATING)
-                .startLevel(UPDATED_START_LEVEL);
+                .startLevel(UPDATED_START_LEVEL)
+                .started(UPDATED_STARTED);
 
         restPlayerGameStatsMockMvc.perform(put("/api/player-game-stats")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -187,6 +195,7 @@ public class PlayerGameStatsResourceIntTest {
         assertThat(testPlayerGameStats.getScore()).isEqualTo(UPDATED_SCORE);
         assertThat(testPlayerGameStats.getRating()).isEqualTo(UPDATED_RATING);
         assertThat(testPlayerGameStats.getStartLevel()).isEqualTo(UPDATED_START_LEVEL);
+        assertThat(testPlayerGameStats.isStarted()).isEqualTo(UPDATED_STARTED);
     }
 
     @Test

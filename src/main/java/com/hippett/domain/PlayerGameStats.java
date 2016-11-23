@@ -33,6 +33,9 @@ public class PlayerGameStats implements Serializable {
     @Column(name = "start_level")
     private Integer startLevel;
 
+    @Column(name = "started")
+    private Boolean started;
+
     @ManyToOne
     private User player;
 
@@ -99,6 +102,19 @@ public class PlayerGameStats implements Serializable {
         this.startLevel = startLevel;
     }
 
+    public Boolean isStarted() {
+        return started;
+    }
+
+    public PlayerGameStats started(Boolean started) {
+        this.started = started;
+        return this;
+    }
+
+    public void setStarted(Boolean started) {
+        this.started = started;
+    }
+
     public User getPlayer() {
         return player;
     }
@@ -153,6 +169,7 @@ public class PlayerGameStats implements Serializable {
             ", score='" + score + "'" +
             ", rating='" + rating + "'" +
             ", startLevel='" + startLevel + "'" +
+            ", started='" + started + "'" +
             '}';
     }
 }
