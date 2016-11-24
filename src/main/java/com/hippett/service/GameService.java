@@ -18,34 +18,28 @@ public class GameService {
 	
 	private final Logger log = LoggerFactory.getLogger(GameService.class);
 	
-	public void registerStart(long gameID) {
-		//Game game = gameRepo.
-		
-		//Long aaa = gameID;
-		
-		//long ffff = 222;
-		
-		//gameID = 1;
-		
-		//Optional<PlayerGameStats> gameStats = pgsRepo.findByPlayerIsCurrent();
-		//List<PlayerGameStats> findByPlayerIsCurrentUser
-		//List<PlayerGameStats> gameStats = pgsRepo.findByPlayerIsCurrentUser();
-		List<PlayerGameStats> gameStats = pgsRepo.findByPlayerIsCurrentUserAndGameId(gameID);
-		
-		
-		//int siiize = gameStats.size();
-		
-		
-		//PlayerGameStats dddd = gameStats.get();
-		
-		if(gameStats == null) {
-			log.info("!!! GameService::registerStart() gamestarts is null");
-			return;
+	GameService(PlayerGameStatsRepository pgsRepo){
+		this.pgsRepo = pgsRepo;
+	}
+	
+	public void punishRating(PlayerGameStats stats){
+		stats.setScore(1);
+	}
+	
+	/**
+     * Will affect database. If a game is already started then rating will be decreased.
+     */
+	public boolean registerStart(long gameID) {
+		List<PlayerGameStats> gameStatsList = pgsRepo.findByPlayerIsCurrentUserAndGameId(gameID); 
+		if(gameStatsList == null || gameStatsList.isEmpty()) {
+			throw new IllegalArgumentException("No stats for that gameId ");
 		}
-	
-	
-		
-		log.info("GameService::GameService() size = " +  gameStats.size());
+		PlayerGameStats pgs = gameStatsList.get(0);
+		if(pgs.isStarted()) {
+			this.punishRating(pgs);
+		}
+		pgs.setStarted(true);
+		return true;
 	}
 	
 	public void registerResult() {

@@ -19,6 +19,8 @@ public class GameController {
     @PostMapping("/start/{gameId}")
     public void startGame(@PathVariable Integer gameId) throws URISyntaxException {
 
+    	log.info("/api/v1/game/start 1" + gameId);
+    	
     	gameService.registerStart(gameId);
     	
     	log.info("/api/v1/game/start " + gameId);
