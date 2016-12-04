@@ -41,6 +41,10 @@ public class PlayerGameStats implements Serializable {
 
     @ManyToOne
     private Game game;
+    
+    public Integer incGamesPlayed(){
+    	return ++this.nGamesPlayed;
+    }
 
     public Long getId() {
         return id;

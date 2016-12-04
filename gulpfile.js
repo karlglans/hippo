@@ -15,7 +15,8 @@ var gulp = require('gulp'),
     KarmaServer = require('karma').Server,
     plumber = require('gulp-plumber'),
     changed = require('gulp-changed'),
-    gulpIf = require('gulp-if');
+    gulpIf = require('gulp-if'),
+    browserify = require('gulp-browserify');
 
 var handleErrors = require('./gulp/handle-errors'),
     serve = require('./gulp/serve'),
@@ -161,6 +162,17 @@ gulp.task('serve', ['install'], serve);
 
 gulp.task('build', ['clean'], function (cb) {
     runSequence(['copy', 'inject:vendor', 'ngconstant:prod'], 'inject:app', 'inject:troubleshoot', 'assets:prod', cb);
+});
+
+
+gulp.task('games', function() {
+    // Single entry point to browserify 
+    gulp.src('src/main/webapp/games/game1/src/main.js')
+        .pipe(browserify({
+          insertGlobals : true,
+          debug : !gulp.env.production
+        }))
+        .pipe(gulp.dest('./src/main/webapp/games/game1'))
 });
 
 gulp.task('default', ['serve']);

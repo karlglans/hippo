@@ -7,6 +7,7 @@
             'ngResource',
             'ngCookies',
             'ngAria',
+            'ngSanitize', // added
             'ngCacheBuster',
             'ngFileUpload',
             'ui.bootstrap',
