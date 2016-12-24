@@ -42,6 +42,7 @@ public class PlayerGameStats implements Serializable {
     @ManyToOne
     private Game game;
     
+    
     public Integer incGamesPlayed(){
     	return ++this.nGamesPlayed;
     }
@@ -144,6 +145,26 @@ public class PlayerGameStats implements Serializable {
     public void setGame(Game game) {
         this.game = game;
     }
+    
+    public PlayerGameStats() {
+    	setScore(0);
+		setRating(0);
+		setnGamesPlayed(0);
+		setStartLevel(0);
+		setStarted(false);
+		this.game = null;
+		this.player = null;
+    }
+    
+    public PlayerGameStats(Game game, User user) {
+    	setScore(0);
+		setRating(0);
+		setnGamesPlayed(0);
+		setStartLevel(0);
+		setStarted(false);
+		this.game = game;
+		this.player = user;
+	}
 
     @Override
     public boolean equals(Object o) {

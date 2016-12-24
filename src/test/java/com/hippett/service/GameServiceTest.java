@@ -9,7 +9,9 @@ import org.springframework.boot.test.context.*;
 import org.springframework.test.context.junit4.*;
 import com.hippett.HippoApp;
 import com.hippett.domain.PlayerGameStats;
+import com.hippett.repository.GameRepository;
 import com.hippett.repository.PlayerGameStatsRepository;
+import com.hippett.repository.UserRepository;
 import com.hippett.service.GameService.RegisterResultsRet;
 import com.hippett.service.GameService.Status;
 
@@ -18,12 +20,18 @@ import static org.mockito.BDDMockito.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = HippoApp.class)
 public class GameServiceTest {
 
 	@Mock
     private PlayerGameStatsRepository pgsRepository;
+	@Mock
+    private GameRepository gameRepo;
+	@Mock
+    private UserRepository userRepo;
 
     @Before
     public void setup() {
@@ -34,7 +42,7 @@ public class GameServiceTest {
     public void TestWillCallPunishIfStartedAgain() {
     	int someNumberOfPlayedGames = 13;
     	// Prepair DB mock:
-    	GameService gameService = Mockito.spy(new GameService(pgsRepository));
+    	GameService gameService = Mockito.spy(new GameService(pgsRepository, gameRepo, userRepo));
     	PlayerGameStats somePlayerGameStats =  new PlayerGameStats();
     		somePlayerGameStats.setStarted(true); //important. last game was started
     		somePlayerGameStats.rating(1600);
@@ -56,7 +64,7 @@ public class GameServiceTest {
     public void TestRegisterResultsCorrectly() {
     	int someNumberOfPlayedGames = 13; 
     	// Prepair DB mock
-    	GameService gameService = Mockito.spy(new GameService(pgsRepository));
+    	GameService gameService = Mockito.spy(new GameService(pgsRepository, gameRepo, userRepo));
     	PlayerGameStats somePlayerGameStats =  new PlayerGameStats();
     		somePlayerGameStats.nGamesPlayed(someNumberOfPlayedGames);
     		somePlayerGameStats.setStarted(true); //important. game has to be flagged as started
@@ -83,7 +91,7 @@ public class GameServiceTest {
     public void TestRegisterResultsWillDetectFalseKey() {
     	int someNumberOfPlayedGames = 13; 
     	// Prepair DB mock
-    	GameService gameService = Mockito.spy(new GameService(pgsRepository));
+    	GameService gameService = Mockito.spy(new GameService(pgsRepository, gameRepo, userRepo));
     	PlayerGameStats somePlayerGameStats =  new PlayerGameStats();
     		somePlayerGameStats.nGamesPlayed(someNumberOfPlayedGames);
     		somePlayerGameStats.setStarted(true); //important. game has to be flagged as started
@@ -110,7 +118,7 @@ public class GameServiceTest {
     public void RegisterResultsWillRetrunGAMESTATUS_ERROR_IfCalledEfterStoped() {
     	int someNumberOfPlayedGames = 13; 
     	// Prepair DB mock
-    	GameService gameService = Mockito.spy(new GameService(pgsRepository));
+    	GameService gameService = Mockito.spy(new GameService(pgsRepository, gameRepo, userRepo));
     	PlayerGameStats somePlayerGameStats =  new PlayerGameStats();
     		somePlayerGameStats.nGamesPlayed(someNumberOfPlayedGames);
     		somePlayerGameStats.setStarted(false); //important. game can't be flagged as started
@@ -133,7 +141,7 @@ public class GameServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void testCreateSocialUserShouldThrowExceptionIfConnectionIsNull() {
     	Long illigalGameId = 1000L;
-    	GameService gameService = new GameService(pgsRepository);
+    	GameService gameService = new GameService(pgsRepository, gameRepo, userRepo);
         // Exercise
     	gameService.registerStart(illigalGameId);
     }

@@ -8,7 +8,7 @@ module.exports = function (gameId, startGameScript, wnd) {
 	var _key;
 	var _startGameScript, _gameId, _wnd;
 	function sendToHost(msg) {
-		console.log("host_connector::sendToHost", msg);
+		//console.log("host_connector::sendToHost", msg);
 		_wnd.top.postMessage(JSON.stringify(msg), '*');
 	}
 	function setupEventhandler() {
@@ -30,12 +30,14 @@ module.exports = function (gameId, startGameScript, wnd) {
 	function init(gameId, startGameScript, wnd) {
 		if (_initHasBeenRun)
 			throw("game done, withouth started");
+
+		console.log('init', gameId);
 		_wnd = wnd;
 		_gameId = gameId;
 		_startGameScript = startGameScript;
 		setupEventhandler();
 		_initHasBeenRun = true;
-		sendToHost({event: "client_loaded", gameId: 12});  /// fix
+		sendToHost({event: "client_loaded", gameId: gameId});  /// fix
 	}
 
 	// init:
@@ -46,6 +48,7 @@ module.exports = function (gameId, startGameScript, wnd) {
 		if (_gameState != GameState.started) {
 			throw("game done, withouth started");
 		}
+		console.log("HostConector, score: ",score );
 		_gameState = GameState.done;
 		sendToHost({event: "game_over", key : _key, score : score, endLevel: endLevel});
 	}

@@ -3,73 +3,68 @@
 
     angular
         .module('hippoApp')
-        .controller('GameController', GameController);
+        .controller('GameHostController', GameHostController);
 
-    GameController.$inject = ['$scope', 'Principal', 'LoginService', '$state', '$http', '$window', '$sce', 'GameService'];
+    GameHostController.$inject = ['$scope', 'Principal', 'LoginService', '$state', '$http', '$window', '$sce', 'GameService', 'gameData'];
 
-    function GameController ($scope, Principal, LoginService, $state, $http, $window, $sce, GameService) {
-        var vm = this;
+    function GameHostController ($scope, Principal, LoginService, $state, $http, $window, $sce, GameService, gameData) {
+        var vm = this, _scriptKey;
 
-        vm.account = null;
-        vm.isAuthenticated = null;
-  
-        $scope.$on('authenticationSuccess', function() {
-            getAccount();
-        });
+        vm.gameData = gameData; // resultFromServer {gameid: 1, title : "game 1", rating : 16001, played : 100, level:2, score: 22}
+        vm.show_info = false;
 
-        getAccount();
-
-        function getAccount() {
-            Principal.identity().then(function(account) {
-                vm.account = account;
-                vm.isAuthenticated = Principal.isAuthenticated;
-            });
-        }
-
-        var _scriptKey;
 		$window.onmessage = function(e){
+			console.log("onmessage ", e.data, gameData.gameid);
 			var msg = JSON.parse(e.data);
-			if (msg.event == 'client_loaded' && msg.gameId == $scope.gameid) {
-			} else if (msg.event == 'game_over') {
+			if (msg.event == 'client_loaded' && msg.gameId == gameData.gameid) {
+				vm.show_info = true;
+			} else if (msg.event === 'game_over') {
 				if (msg.key == _scriptKey) {
-					var resultsFromScript = {gameid: $scope.gameid, score: 22, level: msg.endLevel};
+					vm.gameData.score = msg.score;
+					var resultsFromScript = {gameid: gameData.gameid, score: msg.score, level: msg.endLevel};
 					GameService.rateGame(resultsFromScript)
 						.then( function success(resultFromServer) {  // {rating: 1000, startLevel: 10, gamesPlayed: 323}
-							$scope.played = resultFromServer.gamesPlayed;
-							$scope.rating = resultFromServer.rating;
-							$scope.startLevel = resultFromServer.startLevel;
-							$scope.show_info = true;
+							vm.gameData.played = resultFromServer.played; 
+							vm.gameData.rating = resultFromServer.rating;
+							vm.gameData.level = resultFromServer.level;
+							vm.show_info = true;
 						}, function rejected() {
 							throw("server rejected");
 						});
 				} else { 
 					throw("wrong key");
 				}
+			} else if (msg.event == 'client_loaded') {
+				console.log('game loaded with wrong ID');
 			}
 		}
 
-		$scope.show_info = true;
-		$scope.gameid = 1; // preLoadedStats.gameid not api id
-		$scope.rating = 1600; // preLoadedStats.rating
-		$scope.played = 2; // preLoadedStats.gamesPlayed
-		$scope.startLevel = 3; // preLoadedStats.startLevel
+		$scope.getGameData = function() {
+			console.log('getGameData');
+			$http.get('/api/v1/game/list')
+				.success(function(sss){
+                    console.log('/api/v1/game/list', sss);
+                });
+		}
+
+
+		
+		
 		$scope.frameId = "zma82vRVe18xbAqW"; // should be generated. ???
 		// $scope.path = $sce.trustAsResourceUrl(GameList.getUriFromId($scope.gameid));
-		$scope.path = $sce.trustAsResourceUrl("http://localhost:8080/games/game1/index.html");
+		$scope.path = $sce.trustAsResourceUrl(GameService.getGameURL(gameData.gameid)); // "http://localhost:8080/games/game1/index.html"
 
 		$scope.onClickStart = function() {
-			$scope.show_info = false;
-			GameService.signalStartGame($scope.gameid)
-				.then(function done(fromServer){
+			vm.show_info = false;
+			GameService.signalStartGame(gameData.gameid)
+				.then(function done(){ // fromServer
 					_scriptKey = Math.random();
-					var startMsg = {"msg" : "start", "level" : $scope.startLevel, "scriptKey" : _scriptKey};
+					var startMsg = {"msg" : "start", "level" : gameData.level, "scriptKey" : _scriptKey};
 					var frameId = document.getElementById($scope.frameId).contentWindow;
 					frameId.postMessage(JSON.stringify(startMsg), '*');
 				},function problem(){
 					throw("runGame() GameService rejected");
 				});
 		};
-        
-        
     }
 })();

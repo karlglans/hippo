@@ -7,6 +7,7 @@ var gulp = require('gulp'),
     flatten = require('gulp-flatten'),
     replace = require('gulp-replace'),
     bowerFiles = require('main-bower-files'),
+    uglify = require('gulp-uglify'), // temp added - should not be done here
     changed = require('gulp-changed');
 
 var handleErrors = require('./handle-errors');
@@ -15,6 +16,7 @@ var config = require('./config');
 module.exports = {
     fonts: fonts,
     common: common,
+    game_scripts: game_scripts,
     swagger: swagger,
     images: images
 }
@@ -49,6 +51,14 @@ function common() {
         .pipe(plumber({errorHandler: handleErrors}))
         .pipe(changed(config.dist))
         .pipe(gulp.dest(config.dist));
+}
+
+function game_scripts() {
+    return gulp.src([config.app + 'games/**/*.js'], { dot: true })
+        .pipe(plumber({errorHandler: handleErrors}))
+        .pipe(changed(config.dist))
+        .pipe(uglify()) // its not a perfect spot
+        .pipe(gulp.dest(config.dist + "/games"));
 }
 
 function swagger() {

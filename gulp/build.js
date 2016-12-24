@@ -35,7 +35,8 @@ module.exports = function() {
     return gulp.src([config.app + '**/*.html',
         '!' + config.app + 'app/**/*.html',
         '!' + config.app + 'swagger-ui/**/*',
-        '!' + config.bower + '**/*.html'])
+        '!' + config.bower + '**/*.html',
+        '!' + config.app + 'games-src/**/*.html'])
         .pipe(plumber({errorHandler: handleErrors}))
         //init sourcemaps and prepend semicolon
         .pipe(useref({}, initTask))

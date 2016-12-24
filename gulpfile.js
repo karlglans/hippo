@@ -31,7 +31,7 @@ gulp.task('clean', function () {
     return del([config.dist], { dot: true });
 });
 
-gulp.task('copy', ['copy:fonts', 'copy:common']);
+gulp.task('copy', ['copy:fonts', 'copy:common', 'copy:game_scripts']);
 
 gulp.task('copy:fonts', copy.fonts);
 
@@ -40,6 +40,8 @@ gulp.task('copy:common', copy.common);
 gulp.task('copy:swagger', copy.swagger);
 
 gulp.task('copy:images', copy.images);
+
+gulp.task('copy:game_scripts', copy.game_scripts);
 
 gulp.task('images', function () {
     return gulp.src(config.app + 'content/images/**')
@@ -79,7 +81,7 @@ gulp.task('inject:troubleshoot', inject.troubleshoot);
 gulp.task('assets:prod', ['images', 'styles', 'html', 'copy:swagger', 'copy:images'], build);
 
 gulp.task('html', function () {
-    return gulp.src(config.app + 'app/**/*.html')
+    return gulp.src(config.app + 'app/**/*.html') // [config.app + 'app/**/*.html', '!' + config.app + 'games-src/', '!' + config.app + 'games-src/**']
         .pipe(htmlmin({collapseWhitespace: true}))
         .pipe(templateCache({
             module: 'hippoApp',
@@ -164,15 +166,21 @@ gulp.task('build', ['clean'], function (cb) {
     runSequence(['copy', 'inject:vendor', 'ngconstant:prod'], 'inject:app', 'inject:troubleshoot', 'assets:prod', cb);
 });
 
-
+// will compile each game to one file
 gulp.task('games', function() {
     // Single entry point to browserify 
-    gulp.src('src/main/webapp/games/game1/src/main.js')
+    gulp.src(['src/main/games-src/games/game1/main.js', ])
         .pipe(browserify({
           insertGlobals : true,
           debug : !gulp.env.production
         }))
         .pipe(gulp.dest('./src/main/webapp/games/game1'))
+    gulp.src(['src/main/games-src/games/game2/main.js'])
+        .pipe(browserify({
+          insertGlobals : true,
+          debug : !gulp.env.production
+        }))
+        .pipe(gulp.dest('./src/main/webapp/games/game2'))
 });
 
 gulp.task('default', ['serve']);

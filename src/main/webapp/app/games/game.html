@@ -1,41 +1,29 @@
 <div ng-cloak>
-    <div class="row">
-        <div class="col-md-4">
-            <span class="hipster img-responsive img-rounded"></span>
+<!-- 	<div class="row">
+		<div class="col-md-8 tempBox">
+            <p>col-md-8 tempBox</p>
         </div>
+        <div class="col-md-4 tempBox">
+            <p>col-md-4 tempBox</p>
+        </div>
+    </div> -->
+    <div class="row">
         <div class="col-md-8">
-            <h1>Welcome, Java Hipster!</h1>
-
-            <div ng-switch="vm.isAuthenticated()">
-                <div class="alert alert-success" ng-switch-when="true">
-                    You are logged in as user "{{vm.account.login}}".
-                </div>
-
-                <div class="alert alert-warning" ng-switch-when="false">
-                    If you want to <a class="alert-link" href="" ng-click="vm.login()">sign in</a>, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").
-                </div>
-
-                <div class="alert alert-warning" ng-switch-when="false">
-                    You don't have an account yet? <a class="alert-link" ui-sref="register">Register a new account</a>
-                </div>
-            </div>
-            
-            <div id = "gameinfobox" ng-show="show_info">
-				Gametitle<br/>
-				Rating: {{rating}}<br/>
-				Played: {{played}}<br/>
-				Gameid: {{gameid}}<br/><br/>
-				<button ng-click="onClickStart()">Start</button>
-			</div>
-
-			<p>src="http://localhost:8080/games/game1/index.html"</p> 
-            <p> games1 </p>
-            	<iframe ng-src="{{path}}" class="game_main" id="{{frameId}}" sandbox="allow-scripts" seamless></iframe> 
-            
-       
-            
-                
-            </p>
+			<div id = "gamezone">	        
+	            <div id = "gameinfobox" ng-show="vm.show_info">
+					Gametitle<br/>
+					Score Last Game: {{vm.gameData.score}}<br/>
+					Rating: {{vm.gameData.rating}}<br/>
+					Played: {{vm.gameData.played}}<br/>
+					Gameid: {{vm.gameData.gameid}}<br/><br/>
+					<button class = "btn-primary btn-lg" ng-click="onClickStart()">Start</button>
+				</div>
+	            <iframe ng-src="{{path}}" class="game_main" id="{{frameId}}" sandbox="allow-scripts" seamless></iframe> 
+	      	</div>
+        </div>
+        <div class="col-md-4">
+        	<button ng-click="getGameData()">test</button>
+            <span class="hipster img-responsive img-rounded"></span>
         </div>
     </div>
 </div>

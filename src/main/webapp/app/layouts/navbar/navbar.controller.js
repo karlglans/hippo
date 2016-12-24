@@ -10,6 +10,8 @@
     function NavbarController ($state, Auth, Principal, ProfileService, LoginService) {
         var vm = this;
 
+        console.log("loading NavbarController " );
+
         vm.isNavbarCollapsed = true;
         vm.isAuthenticated = Principal.isAuthenticated;
 
