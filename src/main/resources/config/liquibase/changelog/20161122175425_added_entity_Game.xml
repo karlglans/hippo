@@ -29,6 +29,10 @@
                 <constraints nullable="true" />
             </column>
             
+            <column name="shortname" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            
             <column name="average_score" type="${floatType}">
                 <constraints nullable="true" />
             </column>
