@@ -41,6 +41,10 @@ public class GameService {
 	
 	public void punishRating(PlayerGameStats stats){
 		stats.setScore(1);
+		Integer level = stats.getStartLevel() - 1;
+		if(level < 3)
+			level = 3; // this number should vary from game to game
+		stats.setStartLevel(level);
 	}
 	
 	public int modifyStats(PlayerGameStats stats, int endlLevel, int score) {
@@ -188,16 +192,24 @@ public class GameService {
 			GameInfoForUser gifu = new GameInfoForUser(0, 0, 0, game.getTitle(), id);
 			gameStatsToGameId.put(id, gifu);
 		}
-		// add every rated game for user. Mapped to same game id
-		List<PlayerGameStats> gameStatsList = pgsRepo.findByPlayerIsCurrentUser();
-		for (int i = 0; i < gameStatsList.size(); i++) {
-			PlayerGameStats pgs = gameStatsList.get(i);
-			Game game = pgs.getGame();
-			Integer id = game.getId().intValue();
-			GameInfoForUser gifu = new GameInfoForUser(pgs.getRating(), pgs.getnGamesPlayed(), pgs.getStartLevel(), game.getTitle(), id);
-			gameStatsToGameId.put(id, gifu);
+		// add every rated game for this user. Mapped to same game id.
+		List<PlayerGameStats> gameStatsList = null;
+		try {
+			gameStatsList = pgsRepo.findByPlayerIsCurrentUser();
 		}
-		// add results from above to a list
+		catch (Exception e) {
+			gameStatsList = null;
+		}
+		if(gameStatsList != null) {
+			for (int i = 0; i < gameStatsList.size(); i++) {
+				PlayerGameStats pgs = gameStatsList.get(i);
+				Game game = pgs.getGame();
+				Integer id = game.getId().intValue();
+				GameInfoForUser gifu = new GameInfoForUser(pgs.getRating(), pgs.getnGamesPlayed(), pgs.getStartLevel(), game.getTitle(), id);
+				gameStatsToGameId.put(id, gifu);
+			}
+		}
+		// add results from above to a list for output.
 		List<GameInfoForUser> currResults = new ArrayList<GameInfoForUser>();
 		Iterator it = gameStatsToGameId.entrySet().iterator();
 	    while (it.hasNext()) {

@@ -154,6 +154,7 @@ gulp.task('watch', function () {
     gulp.watch(config.app + 'content/images/**', ['images']);
     gulp.watch(config.app + 'app/**/*.js', ['inject:app']);
     gulp.watch([config.app + '*.html', config.app + 'app/**', config.app + 'i18n/**']).on('change', browserSync.reload);
+    //gulp.watch(config.app + 'games/**/*.js', ['games']);
 });
 
 gulp.task('install', function () {
@@ -170,17 +171,23 @@ gulp.task('build', ['clean'], function (cb) {
 gulp.task('games', function() {
     // Single entry point to browserify 
     gulp.src(['src/main/games-src/games/game1/main.js', ])
+        .pipe(plumber({errorHandler: handleErrors}))
         .pipe(browserify({
-          insertGlobals : true,
-          debug : !gulp.env.production
+          insertGlobals : false
         }))
-        .pipe(gulp.dest('./src/main/webapp/games/game1'))
+        .pipe(gulp.dest('./src/main/webapp/games/game1'));
     gulp.src(['src/main/games-src/games/game2/main.js'])
+        .pipe(plumber({errorHandler: handleErrors}))
         .pipe(browserify({
-          insertGlobals : true,
-          debug : !gulp.env.production
+          insertGlobals : false
         }))
-        .pipe(gulp.dest('./src/main/webapp/games/game2'))
+        .pipe(gulp.dest('./src/main/webapp/games/game2'));
+    gulp.src(['src/main/games-src/games/game3/main.js'])
+        .pipe(plumber({errorHandler: handleErrors}))
+        .pipe(browserify({
+          insertGlobals : false
+        }))
+        .pipe(gulp.dest('./src/main/webapp/games/game3'));
 });
 
 gulp.task('default', ['serve']);

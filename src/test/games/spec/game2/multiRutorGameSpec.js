@@ -17,8 +17,4 @@ describe('multiRutorGame ', function () {
 			expect(game.level).to.equal(level - 1);
 		});
 	});
-
-	describe('Constructor.', function () {
-		
-	});
 });
