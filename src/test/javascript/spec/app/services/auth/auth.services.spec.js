@@ -1,18 +1,24 @@
 'use strict';
 
 describe('Service Tests', function () {
+    beforeEach(mockApiCall);
     beforeEach(mockApiAccountCall);
     beforeEach(mockScriptsCalls);
 
     describe('Auth', function () {
         var $httpBackend, localStorageService, sessionStorageService, authService, spiedAuthServerProvider;
 
-        beforeEach(inject(function($injector, $localStorage, $sessionStorage, Auth, AuthServerProvider) {
+        var $q, GameRepo, gameRepo;
+
+
+        beforeEach(inject(function($injector, $localStorage, $sessionStorage, Auth, AuthServerProvider, GameRepo) {
             $httpBackend = $injector.get('$httpBackend');
+            $q = $injector.get('$q');
             localStorageService = $localStorage;
             sessionStorageService = $sessionStorage;
             authService = Auth;
             spiedAuthServerProvider = AuthServerProvider;
+            gameRepo = GameRepo;
         }));
         //make sure no expectations were missed in your tests.
         //(e.g. expectGET or expectPOST)
@@ -25,6 +31,8 @@ describe('Service Tests', function () {
             //Set spy
             spyOn(spiedAuthServerProvider, 'logout').and.callThrough();
 
+            spyOn(gameRepo, 'downloadStats').and.returnValue($q.resolve([]));
+
             //WHEN
             authService.logout();
             //flush the backend to "execute" the request to do the expectedGET assertion.
@@ -34,6 +42,8 @@ describe('Service Tests', function () {
             expect(spiedAuthServerProvider.logout).toHaveBeenCalled();
             expect(localStorageService.authenticationToken).toBe(undefined);
             expect(sessionStorageService.authenticationToken).toBe(undefined);
+
+            expect(gameRepo.downloadStats).toHaveBeenCalled();
         });
     });
 });

@@ -26,8 +26,19 @@ public class Game implements Serializable {
 
     @Column(name = "descrip")
     private String descrip;
+    
+    @Column(name = "shortname")
+    private String shortname;
 
-    @Column(name = "average_score")
+    public String getShortname() {
+		return shortname;
+	}
+
+	public void setShortname(String shortname) {
+		this.shortname = shortname;
+	}
+
+	@Column(name = "average_score")
     private Float averageScore;
 
     @Column(name = "stddist")

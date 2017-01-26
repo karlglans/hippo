@@ -163,18 +163,20 @@ public class GameService {
 	}
 	
 	public class GameInfoForUser {
-		public GameInfoForUser(int rating, int nGamesPlayed, int endLevel, String gameTitle, int gameId) {
+		public GameInfoForUser(int rating, int nGamesPlayed, int endLevel, String gameTitle, String gameTitleShort, int gameId) {
 			super();
 			this.rating = rating;
 			this.nGamesPlayed = nGamesPlayed;
 			this.endLevel = endLevel;
 			this.gameTitle = gameTitle;
+			this.gameTitleShort = gameTitleShort;
 			this.gameId = gameId;
 		}
 		public int rating;
 		public int nGamesPlayed;
 		public int endLevel;
 		public String gameTitle;
+		public String gameTitleShort;
 		public int gameId;
 	}
 	
@@ -189,7 +191,7 @@ public class GameService {
 		for (int i = 0; i < games.size(); i++) {
 			Game game = games.get(i);
 			Integer id = game.getId().intValue();
-			GameInfoForUser gifu = new GameInfoForUser(0, 0, 0, game.getTitle(), id);
+			GameInfoForUser gifu = new GameInfoForUser(0, 0, 0, game.getTitle(), game.getShortname(), id);
 			gameStatsToGameId.put(id, gifu);
 		}
 		// add every rated game for this user. Mapped to same game id.
@@ -205,7 +207,7 @@ public class GameService {
 				PlayerGameStats pgs = gameStatsList.get(i);
 				Game game = pgs.getGame();
 				Integer id = game.getId().intValue();
-				GameInfoForUser gifu = new GameInfoForUser(pgs.getRating(), pgs.getnGamesPlayed(), pgs.getStartLevel(), game.getTitle(), id);
+				GameInfoForUser gifu = new GameInfoForUser(pgs.getRating(), pgs.getnGamesPlayed(), pgs.getStartLevel(), game.getTitle(), game.getShortname(), id);
 				gameStatsToGameId.put(id, gifu);
 			}
 		}

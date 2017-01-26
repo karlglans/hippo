@@ -1,6 +1,7 @@
 'use strict';
 
 describe('Controller Tests', function() {
+    beforeEach(mockApiCall);
     beforeEach(mockApiAccountCall);
     beforeEach(mockI18nCalls);
 

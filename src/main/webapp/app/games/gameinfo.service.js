@@ -8,6 +8,7 @@
 
     function GameInfo ($resource, $q) {
        var resourceUrl =  '/api/v1/game/stats/:id'; 
+       console.log("GameInfo made");
        return $resource(resourceUrl, {}, {
            'get': {
                method: 'GET',

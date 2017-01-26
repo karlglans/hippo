@@ -19,9 +19,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-3" ng-repeat="game in vm.gameList"> 
-            <div class="gameThumpnail">
-                <h5>{{game.gameTitle}}</h5>
+        <!-- <div class="col-md-3" ng-repeat="game in vm.gameList">  -->
+        <div class="col-md-3" ng-repeat="game in vm.gameList track by game.titleShort">
+            <div class="gameThumpnail" ng-click="vm.launch(game.titleShort)">
+                <h5>{{game.title}}</h5>
             </div>
         </div>
     </row>

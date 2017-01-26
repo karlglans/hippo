@@ -22,9 +22,9 @@
                 }
             },
             resolve: {
-                gameList: ['GameService',
-                    function (GameService) {
-                        return GameService.loadGameList();
+                gameList: ['GameRepo',
+                    function (GameRepo) {
+                        return GameRepo.downloadStats();
                     }
                 ]
             }

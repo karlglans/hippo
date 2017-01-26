@@ -11,11 +11,10 @@
         <div class="col-md-8">
 			<div id = "gamezone">	        
 	            <div id = "gameinfobox" ng-show="vm.show_info">
-					Gametitle<br/>
-					Score Last Game: {{vm.gameData.score}}<br/>
-					Rating: {{vm.gameData.rating}}<br/>
-					Played: {{vm.gameData.played}}<br/>
-					Gameid: {{vm.gameData.gameid}}<br/><br/>
+					{{vm.game.title}}<br/>
+					Score Last Game: {{vm.game.score}}<br/>
+					Rating: {{vm.game.rating}}<br/>
+					Played: {{vm.game.nGamesPlayed}}<br/><br/>
 					<button class = "btn-primary btn-lg" ng-click="onClickStart()">Start</button>
 				</div>
 	            <iframe ng-src="{{path}}" class="game_main" id="{{frameId}}" sandbox="allow-scripts" seamless></iframe> 

@@ -22,9 +22,12 @@
                 }
             },
             resolve: {
-                gameData: ['$stateParams', 'GameInfo', function($stateParams, GameInfo) {
-                    return GameInfo.get({id : $stateParams.id}).$promise;// promise;
+                gameData: ['$stateParams', 'GameRepo', function($stateParams, GameRepo) {
+                    return GameRepo.getGameInfo($stateParams.id);
                 }]
+                // gameData: ['$stateParams', 'GameService', function($stateParams, GameService) {
+                //     return GameService.getGameInfo($stateParams.id);
+                // }]
             }
         });
     }

@@ -19,8 +19,8 @@
             var gameResults = {endLevel : resultsFromScript.level, score: resultsFromScript.score};
             gameResults.key = makeRetKey(resultsFromScript.gameid, _gameKey);
             $http.post("/api/v1/game/register/" + resultsFromScript.gameid, gameResults)
-                .success(function(sss){
-                    deferred.resolve({rating: sss.rating, level: resultsFromScript.level, played: sss.played});
+                .success(function(fromServer){
+                    deferred.resolve({rating: fromServer.rating, level: resultsFromScript.level, played: fromServer.played});
                 });
 
         	return deferred.promise; 
@@ -32,19 +32,10 @@
                     _gameKey = parseInt(resp.key);
                     deferred.resolve();
                 });
-        	return deferred.promise; 
+        	return deferred.promise;
         }
-        service.getGameURL = function(gammeId) {
-            //return "http://localhost:8080/games/game" + gammeId + "/index.html";
-            return "/games/game" + gammeId + "/index.html";
-        }
-        service.loadGameList = function() {
-            var deferred = $q.defer();
-            $http.get("/api/v1/game/list")
-                .success(function(resp){
-                    deferred.resolve(resp);
-                });
-            return deferred.promise; 
+        service.getGameURL = function(gameId) {
+            return "/games/game" + gameId + "/index.html";
         }
 
         return service;

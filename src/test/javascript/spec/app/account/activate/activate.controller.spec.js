@@ -2,14 +2,18 @@
 
 describe('Controller Tests', function() {
 
+    beforeEach(mockApiCall);
     beforeEach(mockApiAccountCall);
     beforeEach(mockI18nCalls);
+
 
     describe('ActivationController', function() {
 
         var $scope, $httpBackend, $q; // actual implementations
         var MockAuth, MockStateParams; // mocks
         var createController; // local utility function
+
+        var GameService;
 
         beforeEach(inject(function($injector) {
             $q = $injector.get('$q');
@@ -22,7 +26,8 @@ describe('Controller Tests', function() {
             var locals = {
                 '$scope': $scope,
                 '$stateParams': MockStateParams,
-                'Auth': MockAuth
+                'Auth': MockAuth,
+
             };
             createController = function() {
                 $injector.get('$controller')('ActivationController as vm', locals);
@@ -34,6 +39,9 @@ describe('Controller Tests', function() {
             MockAuth.activateAccount.and.returnValue($q.resolve());
             // when
             $scope.$apply(createController);
+
+
+            //$httpBackend.flush();
             // then
             expect(MockAuth.activateAccount).toHaveBeenCalledWith({
                 key: 'ABC123'

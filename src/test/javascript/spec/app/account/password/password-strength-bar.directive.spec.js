@@ -1,6 +1,7 @@
 'use strict';
 
 describe('Directive Tests', function () {
+    beforeEach(mockApiCall);
     beforeEach(mockApiAccountCall);
 
     var elm, scope, $httpBackend;

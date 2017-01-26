@@ -5,12 +5,12 @@
         .module('hippoApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', '$http', 'gameList'];
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', '$http', 'gameList', 'GameRepo'];
 
-    function HomeController ($scope, Principal, LoginService, $state, $http, gameList) {
+    function HomeController ($scope, Principal, LoginService, $state, $http, gameList, GameRepo) {
         var vm = this;
 
-        console.log(gameList);
+        console.log("gameList", gameList);
 
         vm.gameList = gameList;
 
@@ -18,10 +18,19 @@
         vm.isAuthenticated = null;
         vm.login = LoginService.open;
         vm.register = register;
+        vm.launch = launch;
 //        vm.registerGame = registerGame;
         $scope.$on('authenticationSuccess', function() {
             getAccount();
         });
+
+        function launch(titleShort) {
+            //console.log("launch ", titleShort);
+            //var game = GameRepo.findGameById(gameID);
+            //var titleShort = game.titleShort;
+            console.log("start game: ", titleShort);
+            $state.go('portal', {id: titleShort});
+        }
         
         var gameKey, gameId = 1, isStarted = false;
 
