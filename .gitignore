@@ -3,7 +3,7 @@
 ######################
 /target/www/**
 src/main/webapp/bower_components/
-/src/main/resources/config/application-prod.yml
+src/main/resources/config/application-prod.yml
 
 ######################
 # Node
